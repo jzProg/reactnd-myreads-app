@@ -1,4 +1,4 @@
-# MyReads Project
+# MyReads App
 
 My implementation of the final assessment project for Udacity's React Fundamentals course. The [reactnd-project-myreads-starter](https://github.com/udacity/reactnd-project-myreads-starter) was used as initial template.
 
