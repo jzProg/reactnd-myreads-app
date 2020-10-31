@@ -22,25 +22,26 @@ class BooksApp extends React.Component {
     this.fetchUserBooks();
   }
 
-  storeBook = (bookObj) => {
+  storeBook = (bookObj, input) => {
     BooksAPI.update(bookObj.book, bookObj.type).then(() => {
-      this.fetchUserBooks();
+      this.fetchUserBooks().then(() => {
+        this.setState((state, props) => ({
+           listOfSearchedBooks: this.setShelfStateBasedOnUserBooks(state.listOfSearchedBooks) // update searched books "shelf" property
+        }));
+      });
     });
   }
 
   search = (searchTerm) => {
     BooksAPI.search(searchTerm).then((res) => {
       let filteredSearchedBooks = this.getFilteredBooks(res);
-      filteredSearchedBooks = filteredSearchedBooks.map(book => {
-        const foundBookInUserBooks = this.state.listOfUserBooks.find(b => b.id === book.id);
-        return foundBookInUserBooks || book; // return book from users collection in order to have the "shelf" property for search page
-      });
+      filteredSearchedBooks = this.setShelfStateBasedOnUserBooks(filteredSearchedBooks);
       this.setState({ listOfSearchedBooks:  filteredSearchedBooks });
     });
   }
 
   fetchUserBooks = () => {
-    BooksAPI.getAll().then((res) => {
+    return BooksAPI.getAll().then((res) => {
       this.setState({ listOfUserBooks: this.getFilteredBooks(res) });
     });
   }
@@ -55,6 +56,14 @@ class BooksApp extends React.Component {
 
   getFilteredBooks = (books) => {
     return Array.isArray(books) ? books.filter(book => book.imageLinks && book.authors) : [];
+  }
+
+  setShelfStateBasedOnUserBooks = (books) => {
+    const updatedBooks = books.map(book => {
+      const foundBookInUserBooks = this.state.listOfUserBooks.find(b => b.id === book.id);
+      return foundBookInUserBooks || book; // return book from users collection in order to have the "shelf" property for search page
+    });
+    return updatedBooks;
   }
 
   render() {

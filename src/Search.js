@@ -3,9 +3,14 @@ import BookList from './BookList';
 
 class Search extends Component {
 
+  state = {
+    currentInput: ''
+  }
+
   updateInput = (e) => {
     e.preventDefault();
     const input = e.target.value;
+    this.setState({ currentInput: input });
     input && this.props.onSearch(input);
   }
 
@@ -20,7 +25,7 @@ class Search extends Component {
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-           <BookList list={this.props.list} categories= {this.props.categories} onChange={this.props.onAddBook}/>
+           <BookList list={this.props.list} categories= {this.props.categories} onChange={(received) => this.props.onAddBook(received, this.state.currentInput)}/>
           </ol>
         </div>
       </div>
