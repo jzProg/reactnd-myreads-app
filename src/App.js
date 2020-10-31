@@ -29,21 +29,32 @@ class BooksApp extends React.Component {
   }
 
   search = (searchTerm) => {
-    console.log('searching...')
+    BooksAPI.search(searchTerm).then((res) => {
+      let filteredSearchedBooks = this.getFilteredBooks(res);
+      filteredSearchedBooks = filteredSearchedBooks.map(book => {
+        const foundBookInUserBooks = this.state.listOfUserBooks.find(b => b.id === book.id);
+        return foundBookInUserBooks || book; // return book from users collection in order to have the "shelf" property for search page
+      });
+      this.setState({ listOfSearchedBooks:  filteredSearchedBooks });
+    });
   }
 
   fetchUserBooks = () => {
-    return BooksAPI.getAll().then((res) => {
-      this.setState({ listOfUserBooks: res });
+    BooksAPI.getAll().then((res) => {
+      this.setState({ listOfUserBooks: this.getFilteredBooks(res) });
     });
   }
 
   toSearch = () => {
-    this.setState({showSearchPage: true});
+    this.setState({ showSearchPage: true });
   }
 
   toHome = () => {
-    this.setState({showSearchPage: false});
+    this.setState({ showSearchPage: false, listOfSearchedBooks: [] });
+  }
+
+  getFilteredBooks = (books) => {
+    return Array.isArray(books) ? books.filter(book => book.imageLinks && book.authors) : [];
   }
 
   render() {
