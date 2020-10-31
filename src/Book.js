@@ -2,6 +2,7 @@ import React from 'react';
 import Select from './Select';
 
 function Book(props) {
+  
   const { book, options } = props;
 
   return (
