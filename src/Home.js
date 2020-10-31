@@ -3,13 +3,9 @@ import BookShelf from './BookShelf';
 
 class Home extends Component {
 
-  isSameCategory = (bookCategory, type) =>  {
-    return bookCategory.toLowerCase() === type.split(' ').join('').toLowerCase();
-  }
-
-  toSearch = () => {
-    this.props.history.push('/search');
-  }
+ toSearch = () => {
+   this.props.history.push('/search');
+ }
 
  render() {
    return (
@@ -25,7 +21,7 @@ class Home extends Component {
                           type={category.displayText}
                           categories={this.props.categories}
                           changeShelf={this.props.onAddBook}
-                          list={this.props.list.filter(book => this.isSameCategory(book.shelf, category.type))}>
+                          list={this.props.list.filter(book => book.shelf === category.type)}>
                </BookShelf>
               )}
            </div>

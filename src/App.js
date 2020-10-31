@@ -24,11 +24,10 @@ class BooksApp extends React.Component {
 
   storeBook = (bookObj, input) => {
     BooksAPI.update(bookObj.book, bookObj.type).then(() => {
-      this.fetchUserBooks().then(() => {
-        this.setState((state, props) => ({
-           listOfSearchedBooks: this.setShelfStateBasedOnUserBooks(state.listOfSearchedBooks) // update searched books "shelf" property
-        }));
-      });
+      this.setState((state) => ({
+         listOfUserBooks: this.setShelfStateOnLocalUserBook(state.listOfUserBooks, bookObj),
+         listOfSearchedBooks: this.setShelfStateBasedOnUserBooks(state.listOfSearchedBooks) // update searched books "shelf" property
+      }));
     });
   }
 
@@ -55,11 +54,17 @@ class BooksApp extends React.Component {
   }
 
   setShelfStateBasedOnUserBooks = (books) => {
-    const updatedBooks = books.map(book => {
+    return books.map(book => {
       const foundBookInUserBooks = this.state.listOfUserBooks.find(b => b.id === book.id);
       return foundBookInUserBooks || book; // return book from users collection in order to have the "shelf" property for search page
     });
-    return updatedBooks;
+  }
+
+  setShelfStateOnLocalUserBook = (books, bookObj) => {
+    return books.map(book => {
+      book.shelf = book.id === bookObj.book.id ? bookObj.type : book.shelf;
+      return book;
+    });
   }
 
   render() {
