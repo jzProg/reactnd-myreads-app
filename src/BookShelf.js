@@ -6,7 +6,7 @@ function BookShelf(props) {
       <div className="bookshelf">
         <h2 className="bookshelf-title">{props.type}</h2>
         <div className="bookshelf-books">
-         <BookList list={props.list}/>
+         <BookList list={props.list} categories={props.categories} onChange={props.changeShelf}/>
         </div>
       </div>
   );

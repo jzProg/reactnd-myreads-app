@@ -9,18 +9,27 @@ class BooksApp extends React.Component {
     listOfUserBooks: [],
     listOfSearchedBooks: [],
     showSearchPage: false,
+    bookCategories: [
+      { type: 'move', displayText: 'Move to...', toBeSelected: false, toBeShown: false },
+      { type: 'currentlyReading', displayText: 'Currently Reading', toBeSelected: true, toBeShown: true },
+      { type: 'wantToRead', displayText: 'Want to Read', toBeSelected: true, toBeShown: true },
+      { type: 'read', displayText: 'Read', toBeSelected: true, toBeShown: true },
+      { type: 'none', displayText: 'None', toBeSelected: true, toBeShown: false },
+    ]
   }
 
   componentDidMount() {
     this.fetchUserBooks();
   }
 
-  storeBook = (book) => {
-
+  storeBook = (bookObj) => {
+    BooksAPI.update(bookObj.book, bookObj.type).then(() => {
+      this.fetchUserBooks();
+    });
   }
 
   search = (searchTerm) => {
-
+    console.log('searching...')
   }
 
   fetchUserBooks = () => {
@@ -41,9 +50,16 @@ class BooksApp extends React.Component {
     return (
       <div className="app">
         {this.state.showSearchPage ? (
-         <Search list={this.state.listOfSearchedBooks} onClose={this.toHome}/>
+         <Search list={this.state.listOfSearchedBooks}
+                 categories={this.state.bookCategories}
+                 onClose={this.toHome}
+                 onSearch={this.search}
+                 onAddBook={this.storeBook}/>
         ) : (
-         <Home list={this.state.listOfUserBooks} onSearch={this.toSearch}/>
+         <Home list={this.state.listOfUserBooks}
+               categories={this.state.bookCategories}
+               onSearch={this.toSearch}
+               onAddBook={this.storeBook}/>
         )}
       </div>
     )

@@ -13,7 +13,7 @@ class Search extends Component {
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-           <BookList list={this.props.list}/>
+           <BookList list={this.props.list} categories= {this.props.categories} onChange={this.props.onAddBook}/>
           </ol>
         </div>
       </div>
