@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import BookShelf from './BookShelf';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBook } from '@fortawesome/free-solid-svg-icons';
 
 class Home extends Component {
-
+  
  toSearch = () => {
    this.props.history.push('/search');
  }
@@ -11,7 +13,7 @@ class Home extends Component {
    return (
        <div className="list-books">
          <div className="list-books-title">
-           <h1>MyReads</h1>
+           <h1><FontAwesomeIcon icon={faBook}/><b> MyReads</b></h1>
          </div>
          <div className="list-books-content">
            <div>

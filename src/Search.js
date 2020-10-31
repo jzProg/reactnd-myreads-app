@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import BookList from './BookList';
 
 class Search extends Component {
-
+  
   state = {
     currentInput: ''
   }
