@@ -4,7 +4,7 @@ import Book from './Book';
 function BookList(props) {
   return (
     <ol className="books-grid">
-     {props.list.map(book => <li><Book/></li>)}
+     {props.list.map(book => <li key={book.id}><Book book={book}/></li>)}
     </ol>
   );
 }
