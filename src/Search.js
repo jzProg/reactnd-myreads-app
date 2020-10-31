@@ -14,11 +14,16 @@ class Search extends Component {
     input && this.props.onSearch(input);
   }
 
+  close = () => {
+    this.props.onClose();
+    this.props.history.push('/');
+  }
+
   render() {
     return (
       <div className="search-books">
         <div className="search-books-bar">
-          <button className="close-search" onClick={() => this.props.onClose()}>Close</button>
+          <button className="close-search" onClick={this.close}>Close</button>
           <div className="search-books-input-wrapper">
             <input type="text" placeholder="Search by title or author" onChange={this.updateInput}/>
           </div>

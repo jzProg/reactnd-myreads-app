@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import * as BooksAPI from './BooksAPI';
 import './App.css';
 import Home from './Home';
@@ -8,13 +9,12 @@ class BooksApp extends React.Component {
   state = {
     listOfUserBooks: [],
     listOfSearchedBooks: [],
-    showSearchPage: false,
     bookCategories: [
       { type: 'move', displayText: 'Move to...', toBeSelected: false, toBeShown: false },
       { type: 'currentlyReading', displayText: 'Currently Reading', toBeSelected: true, toBeShown: true },
       { type: 'wantToRead', displayText: 'Want to Read', toBeSelected: true, toBeShown: true },
       { type: 'read', displayText: 'Read', toBeSelected: true, toBeShown: true },
-      { type: 'none', displayText: 'None', toBeSelected: true, toBeShown: false },
+      { type: 'none', displayText: 'None', toBeSelected: true, toBeShown: false }
     ]
   }
 
@@ -46,12 +46,8 @@ class BooksApp extends React.Component {
     });
   }
 
-  toSearch = () => {
-    this.setState({ showSearchPage: true });
-  }
-
-  toHome = () => {
-    this.setState({ showSearchPage: false, listOfSearchedBooks: [] });
+  onSearchClose = () => {
+    this.setState({ listOfSearchedBooks: [] });
   }
 
   getFilteredBooks = (books) => {
@@ -68,20 +64,24 @@ class BooksApp extends React.Component {
 
   render() {
     return (
-      <div className="app">
-        {this.state.showSearchPage ? (
-         <Search list={this.state.listOfSearchedBooks}
-                 categories={this.state.bookCategories}
-                 onClose={this.toHome}
-                 onSearch={this.search}
-                 onAddBook={this.storeBook}/>
-        ) : (
-         <Home list={this.state.listOfUserBooks}
-               categories={this.state.bookCategories}
-               onSearch={this.toSearch}
-               onAddBook={this.storeBook}/>
-        )}
-      </div>
+      <Router>
+        <div className="app">
+          <Route exact path="/" render={({ history }) =>
+            <Home list={this.state.listOfUserBooks}
+                  categories={this.state.bookCategories}
+                  history= {history}
+                  onAddBook={this.storeBook}/>
+          }/>
+          <Route path="/search" render={({ history }) =>
+            <Search list={this.state.listOfSearchedBooks}
+                    categories={this.state.bookCategories}
+                    onSearch={this.search}
+                    history= {history}
+                    onClose={this.onSearchClose}
+                    onAddBook={this.storeBook}/>
+          }/>
+        </div>
+      </Router>
     )
   }
 }
