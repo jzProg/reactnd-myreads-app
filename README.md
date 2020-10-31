@@ -4,8 +4,8 @@ My implementation of the final assessment project for Udacity's React Fundamenta
 
 ## Extra features
 
-User is able to hide/show the books of each bookshelf (by clicking the bookshelf title div) on home page.
-
+- User is able to hide/show the books of each bookshelf (by clicking the bookshelf title div) on home page.
+- Use of font-awesome icons for improving UI.
 
 ## Setup Instructions
 
