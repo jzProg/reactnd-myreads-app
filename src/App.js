@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import * as BooksAPI from './BooksAPI';
+import { debounce } from 'lodash';
 import './App.css';
 import Home from './Home';
 import Search from './Search';
@@ -32,7 +33,7 @@ class BooksApp extends React.Component {
     });
   }
 
-  search = (searchTerm) => {
+  search = debounce((searchTerm) => {
     if (!searchTerm) this.setState({ listOfSearchedBooks:  [] });
     else {
       BooksAPI.search(searchTerm).then((res) => {
@@ -41,7 +42,7 @@ class BooksApp extends React.Component {
         this.setState({ listOfSearchedBooks:  filteredSearchedBooks });
       });
     }
-  })
+  }, 500)
 
   fetchUserBooks = () => {
     return BooksAPI.getAll().then((res) => {
