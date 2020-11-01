@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import BookList from './BookList';
 
 class Search extends Component {
-  
+
   state = {
     currentInput: ''
   }
@@ -11,7 +11,7 @@ class Search extends Component {
     e.preventDefault();
     const input = e.target.value;
     this.setState({ currentInput: input });
-    input && this.props.onSearch(input);
+    this.props.onSearch(input);
   }
 
   close = () => {

@@ -6,7 +6,7 @@ import Home from './Home';
 import Search from './Search';
 
 class BooksApp extends React.Component {
-  
+
   state = {
     listOfUserBooks: [],
     listOfSearchedBooks: [],
@@ -33,12 +33,15 @@ class BooksApp extends React.Component {
   }
 
   search = (searchTerm) => {
-    BooksAPI.search(searchTerm).then((res) => {
-      let filteredSearchedBooks = this.getFilteredBooks(res);
-      filteredSearchedBooks = this.setShelfStateBasedOnUserBooks(filteredSearchedBooks);
-      this.setState({ listOfSearchedBooks:  filteredSearchedBooks });
-    });
-  }
+    if (!searchTerm) this.setState({ listOfSearchedBooks:  [] });
+    else {
+      BooksAPI.search(searchTerm).then((res) => {
+        let filteredSearchedBooks = this.getFilteredBooks(res);
+        filteredSearchedBooks = this.setShelfStateBasedOnUserBooks(filteredSearchedBooks);
+        this.setState({ listOfSearchedBooks:  filteredSearchedBooks });
+      });
+    }
+  })
 
   fetchUserBooks = () => {
     return BooksAPI.getAll().then((res) => {
