@@ -15,11 +15,14 @@ class Search extends Component {
   }
 
   close = () => {
-    this.props.onClose();
-    this.props.history.push('/');
+    const { onClose, history } = this.props;
+    onClose();
+    history.push('/');
   }
 
   render() {
+    const { list, categories, onAddBook } = this.props;
+
     return (
       <div className="search-books">
         <div className="search-books-bar">
@@ -30,7 +33,7 @@ class Search extends Component {
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-           <BookList list={this.props.list} categories= {this.props.categories} onChange={(received) => this.props.onAddBook(received, this.state.currentInput)}/>
+           <BookList list={list} categories= {categories} onChange={(received) => onAddBook(received, this.state.currentInput)}/>
           </ol>
         </div>
       </div>

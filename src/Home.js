@@ -4,12 +4,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
 
 class Home extends Component {
-  
+
  toSearch = () => {
    this.props.history.push('/search');
  }
 
  render() {
+   const { categories, onAddBook, list } = this.props;
+
    return (
        <div className="list-books">
          <div className="list-books-title">
@@ -17,13 +19,13 @@ class Home extends Component {
          </div>
          <div className="list-books-content">
            <div>
-            {this.props.categories.filter(category => category.toBeShown)
-                             .map((category, index) =>
-               <BookShelf key={index}
-                          type={category.displayText}
-                          categories={this.props.categories}
-                          changeShelf={this.props.onAddBook}
-                          list={this.props.list.filter(book => book.shelf === category.type)}>
+            {categories.filter(category => category.toBeShown)
+                       .map((category, index) =>
+              <BookShelf key={index}
+                         type={category.displayText}
+                         categories={categories}
+                         changeShelf={onAddBook}
+                         list={list.filter(book => book.shelf === category.type)}>
                </BookShelf>
               )}
            </div>
